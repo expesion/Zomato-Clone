@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, FlatList, Image } from "react-native";
+import uuid from "react-native-uuid";
 import yelp from "../api/yelp";
 function ResultShowScreen({ navigation }) {
   const [result, setResult] = useState([]);
   const getResult = async () => {
-    const response = awaityelp.get(`/${navigation.getParam("id")}`);
+    const response = await yelp.get(`/${navigation.getParam("id")}`);
     setResult(response.data.photos);
   };
-  console.log(result);
   useEffect(() => {
     getResult();
   }, []);
   return (
     <View>
-      <Text>Results show</Text>
+      <FlatList
+        data={result}
+        keyExtractor={() => uuid.v4()}
+        renderItem={({ item }) => (
+          <Image style={{ height: 200, width: 300 }} source={{ uri: item }} />
+        )}
+      />
     </View>
   );
 }
