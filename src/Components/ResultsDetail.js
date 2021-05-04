@@ -5,7 +5,7 @@ function ResultsDetail({ result }) {
     <View style={styles.container}>
       <Image style={styles.image} source={{ uri: result.image_url }} />
       <Text style={styles.name}>{result.name}</Text>
-      <Text style={styles.name}>
+      <Text style={styles.info}>
         {result.rating} Stars, {result.review_count} Reviews
       </Text>
     </View>
@@ -22,6 +22,9 @@ const styles = StyleSheet.create({
   name: {
     fontWeight: "bold",
     fontSize: 16,
+  },
+  info: {
+    color: "grey",
   },
 });
 export default ResultsDetail;
