@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import useYelp from "../hooks/useYelp";
 import Searchbar from "../Components/SearchBar";
@@ -29,11 +29,26 @@ function SearchScreen() {
   useEffect(() => {
     filterResultsByPrice();
   }, [results, error]);
+  const debounce = (func, delay = 500) => {
+    let inDebounce;
+    return function () {
+      const context = this;
+      const args = arguments;
+      clearTimeout(inDebounce);
+      inDebounce = setTimeout(() => func.apply(context, args), delay);
+    };
+  };
+  let debounedSearch = useCallback(debounce(submitSearch), []);
   return (
     <View style={styles.background}>
       <Searchbar
         search={search}
-        searchChange={(newSearch) => setSearch(newSearch)}
+        searchChange={(newSearch) =>
+          setSearch(() => {
+            debounedSearch(newSearch);
+            return newSearch;
+          })
+        }
         submitSearch={() => submitSearch(search)}
       />
       {loading && <Text>Loading...</Text>}
