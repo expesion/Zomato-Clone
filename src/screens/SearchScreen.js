@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import useYelp from "../hooks/useYelp";
 import Searchbar from "../Components/SearchBar";
 import ResultsList from "../Components/ResultsList";
@@ -35,11 +35,11 @@ function SearchScreen() {
       {error ? (
         <Text>{error}</Text>
       ) : (
-        <>
+        <ScrollView>
           <ResultsList title="Cost Effective" data={resultsByPrice.cheap} />
           <ResultsList title="Bit Pricy" data={resultsByPrice.average} />
           <ResultsList title="Big Spender" data={resultsByPrice.expensive} />
-        </>
+        </ScrollView>
       )}
     </View>
   );
