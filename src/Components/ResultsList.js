@@ -1,6 +1,7 @@
 import React from "react";
 import uuid from "react-native-uuid";
 import { View, Text, StyleSheet, FlatList } from "react-native";
+import ResultsDetail from "./ResultsDetail";
 function ResultsList({ title, data }) {
   return (
     <View>
@@ -11,7 +12,7 @@ function ResultsList({ title, data }) {
         keyExtractor
         keyExtractor={() => uuid.v4()}
         renderItem={({ item }) => {
-          return <Text>{item.name}</Text>;
+          return <ResultsDetail result={item} />;
         }}
       />
     </View>
