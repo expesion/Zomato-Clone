@@ -5,22 +5,26 @@ import Searchbar from "../Components/SearchBar";
 import ResultsList from "../Components/ResultsList";
 function SearchScreen() {
   const [search, setSearch] = useState("");
-  const resultsByPrice = useMemo(() => {
-    return { cheap: [], average: [], expensive: [] };
-  }, []);
-  const [{ results, error }, submitSearch] = useYelp();
+  const [restaurants, setRestaurants] = useState({
+    cheap: [],
+    average: [],
+    expensive: [],
+  });
+  const [{ results, error, loading }, submitSearch] = useYelp();
   const filterResultsByPrice = () => {
+    let res = { cheap: [], average: [], expensive: [] };
     for (let i = 0; i < results.length; i++) {
       if (results[i].price == "$") {
-        resultsByPrice.cheap.push(results[i]);
+        res.cheap.push(results[i]);
       }
       if (results[i].price == "$$") {
-        resultsByPrice.average.push(results[i]);
+        res.average.push(results[i]);
       }
       if (results[i].price == "$$$" || results[i].price == "$$$$") {
-        resultsByPrice.expensive.push(results[i]);
+        res.expensive.push(results[i]);
       }
     }
+    setRestaurants(res);
   };
   useEffect(() => {
     filterResultsByPrice();
@@ -32,13 +36,14 @@ function SearchScreen() {
         searchChange={(newSearch) => setSearch(newSearch)}
         submitSearch={() => submitSearch(search)}
       />
+      {loading && <Text>Loading...</Text>}
       {error ? (
         <Text>{error}</Text>
       ) : (
         <ScrollView>
-          <ResultsList title="Cost Effective" data={resultsByPrice.cheap} />
-          <ResultsList title="Bit Pricy" data={resultsByPrice.average} />
-          <ResultsList title="Big Spender" data={resultsByPrice.expensive} />
+          <ResultsList title="Cost Effective" data={restaurants.cheap} />
+          <ResultsList title="Bit Pricy" data={restaurants.average} />
+          <ResultsList title="Big Spender" data={restaurants.expensive} />
         </ScrollView>
       )}
     </View>
@@ -47,6 +52,7 @@ function SearchScreen() {
 const styles = StyleSheet.create({
   background: {
     backgroundColor: "white",
+    flex: 1,
   },
 });
 export default SearchScreen;
