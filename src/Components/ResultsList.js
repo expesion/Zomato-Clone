@@ -21,7 +21,9 @@ function ResultsList({ title, data, navigation }) {
         keyExtractor={() => uuid.v4()}
         renderItem={({ item }) => {
           return (
-            <TouchableOpacity onPress={() => navigation.navigate("Results")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Results", { id: item.id })}
+            >
               <ResultsDetail result={item} />
             </TouchableOpacity>
           );

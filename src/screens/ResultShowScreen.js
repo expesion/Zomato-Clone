@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-function ResultShowScreen() {
+function ResultShowScreen({ navigation }) {
   return (
     <View>
-      <Text>Results show</Text>
+      <Text>Results show{navigation.getParam("id")}</Text>
     </View>
   );
 }
