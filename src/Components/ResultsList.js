@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "bold",
+    marginLeft: 15,
   },
 });
 export default ResultsList;
